@@ -1,31 +1,45 @@
+const http=require('http');
+const fs=require('fs');
 const url = require('url');
-const http = require('http');
-const myURL = new URL('https://localhost:8080');
 
 const hostname = 'localhost';
 const port = 8080;
 
-const server = http.createServer((req:any, res:any) => {
-    // if (myURL.href === 'localhost:8080') {
-    //     res.statusCode = 200;
-    //     res.setHeader('Content-Type', 'text/plain');
-    //     res.end('This is index');
-    // } else if (myURL.pathname === '/about') {
-    //     res.statusCode = 200;
-    //     res.setHeader('Content-Type', 'text/plain');
-    //     res.end('This is about');
-    // } else if (myURL.pathname === '/contact-me') {
-    //     res.statusCode = 200;
-    //     res.setHeader('Content-Type', 'text/plain');
-    //     res.end('This is contant');
-    // } 
-
-    res.statusCode = 200;
-    res.setHeader('Content-Type', 'text/plain');
-    res.end('This is index');
-    console.log(res);
-});
+const server = http.createServer((req:any,res:any)=>{
+    if(req.url==='/'){
+        fs.readFile('index.html',function(err:any,data:any){
+            if (err) throw err;
+            res.writeHead(200,{'Content-Type':'text/html'});
+            res.write(data);
+            return res.end;
+        });
+    }
+    else if(req.url==='/about'){
+        fs.readFile('about.html',function(err:any,data:any){
+            if (err) throw err;
+            res.writeHead(200,{'Content-Type':'text/html'});
+            res.write(data);
+            return res.end;
+        });
+    }
+    else if(req.url==='/contact-me'){
+        fs.readFile('contact-me.html',function(err:any,data:any){
+            if (err) throw err;
+            res.writeHead(200,{'Content-Type':'text/html'});
+            res.write(data);
+            return res.end;
+        });
+    }
+    else{
+        fs.readFile('404.html',function(err:any,data:any){
+            if (err) throw err;
+            res.writeHead(200,{'Content-Type':'text/html'});
+            res.write(data);
+            return res.end;
+        });
+    }
+})
 
 server.listen(port, hostname, () => {
-  console.log(`Server running at http://${hostname}:${port}/`);
-});
+    console.log(`Server running at http://${hostname}:${port}/`)
+  })
