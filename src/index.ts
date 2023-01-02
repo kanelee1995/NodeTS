@@ -1,45 +1,27 @@
-const http=require('http');
-const fs=require('fs');
-const url = require('url');
+const express = require("express");
+const app = express();
 
-const hostname = 'localhost';
-const port = 8080;
+const hostname:string = "localhost";
+const port:number = 8080;
 
-const server = http.createServer((req:any,res:any)=>{
-    if(req.url==='/'){
-        fs.readFile('index.html',function(err:any,data:any){
-            if (err) throw err;
-            res.writeHead(200,{'Content-Type':'text/html'});
-            res.write(data);
-            return res.end;
-        });
-    }
-    else if(req.url==='/about'){
-        fs.readFile('about.html',function(err:any,data:any){
-            if (err) throw err;
-            res.writeHead(200,{'Content-Type':'text/html'});
-            res.write(data);
-            return res.end;
-        });
-    }
-    else if(req.url==='/contact-me'){
-        fs.readFile('contact-me.html',function(err:any,data:any){
-            if (err) throw err;
-            res.writeHead(200,{'Content-Type':'text/html'});
-            res.write(data);
-            return res.end;
-        });
-    }
-    else{
-        fs.readFile('404.html',function(err:any,data:any){
-            if (err) throw err;
-            res.writeHead(200,{'Content-Type':'text/html'});
-            res.write(data);
-            return res.end;
-        });
-    }
+app.get("/", (req:any, res:any) => {
+    console.log(req.url);
+    res.send("This is main page!")
 })
 
-server.listen(port, hostname, () => {
-    console.log(`Server running at http://${hostname}:${port}/`)
-  })
+app.get("/about", (req:any, res:any) => {
+    res.send("This is about.")
+})
+
+app.get("/contact-me", (req:any, res:any) => {
+    res.send("Contact")
+})
+
+app.use((req:any, res:any, next:any) => {
+    res.status(404).send(
+        "<h1>Page not found on the server</h1>")
+})
+
+app.listen(port, () => {
+    console.log(`Example app listening on port ${port}!`);
+  });
