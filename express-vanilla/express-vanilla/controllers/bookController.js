@@ -32,8 +32,6 @@ exports.index = (req, res) => {
         error: err,
         data: results, //array of the result of the functions above.
       });
-
-      console.log(results);
     }
   );
 
