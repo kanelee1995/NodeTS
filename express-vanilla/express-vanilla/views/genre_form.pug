@@ -3,12 +3,13 @@ extends layout
 block content
   h1 #{title}
 
-<!-- Post form -->
   form(method='POST' action='')
     div.form-group
       label(for='name') Genre:
       // need some help here from ChatGPT(don't worry, you will better if you read more.)
-      input#name.form-control(type='text', placeholder='Fantasy, Poetry etc.' name='name' value=(undefined===genre ? '' : genre.name))
+      // we write undefined first as a common practice.
+      input#name.form-control(type='text', placeholder='Fantasy, Poetry etc.' 
+      name='name' value=(undefined===genre ? '' : genre.name)) 
     button.btn.btn-primary(type='submit') Submit
 
   if errors
